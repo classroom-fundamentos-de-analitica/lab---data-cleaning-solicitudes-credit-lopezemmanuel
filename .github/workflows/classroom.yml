@@ -1,19 +1,110 @@
-name: GitHub Classroom Workflow
-
-on:
-  - push
-  - workflow_dispatch
-
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
-  build:
-    name: Autograding
+  run-autograding-tests:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test 01
+      id: test-01
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 01
+        setup-command: pip3 install pandas
+        command: python3 tests.py 01
+        timeout: 10
+        max-score: 1
+    - name: Test 02
+      id: test-02
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 02
+        setup-command: pip3 install pandas
+        command: python3 tests.py 02
+        timeout: 10
+        max-score: 1
+    - name: Test 03
+      id: test-03
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 03
+        setup-command: pip3 install pandas
+        command: python3 tests.py 03
+        timeout: 10
+        max-score: 1
+    - name: Test 04
+      id: test-04
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 04
+        setup-command: pip3 install pandas
+        command: python3 tests.py 04
+        timeout: 10
+        max-score: 1
+    - name: Test 05
+      id: test-05
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 05
+        setup-command: pip3 install pandas
+        command: python3 tests.py 05
+        timeout: 10
+        max-score: 1
+    - name: Test 06
+      id: test-06
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 06
+        setup-command: pip3 install pandas
+        command: python3 tests.py 06
+        timeout: 10
+        max-score: 1
+    - name: Test 07
+      id: test-07
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 07
+        setup-command: pip3 install pandas
+        command: python3 tests.py 07
+        timeout: 10
+        max-score: 1
+    - name: Test 08
+      id: test-08
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 08
+        setup-command: pip3 install pandas
+        command: python3 tests.py 08
+        timeout: 10
+        max-score: 1
+    - name: Test 09
+      id: test-09
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test 09
+        setup-command: pip3 install pandas
+        command: python3 tests.py 09
+        timeout: 10
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST-01_RESULTS: "${{steps.test-01.outputs.result}}"
+        TEST-02_RESULTS: "${{steps.test-02.outputs.result}}"
+        TEST-03_RESULTS: "${{steps.test-03.outputs.result}}"
+        TEST-04_RESULTS: "${{steps.test-04.outputs.result}}"
+        TEST-05_RESULTS: "${{steps.test-05.outputs.result}}"
+        TEST-06_RESULTS: "${{steps.test-06.outputs.result}}"
+        TEST-07_RESULTS: "${{steps.test-07.outputs.result}}"
+        TEST-08_RESULTS: "${{steps.test-08.outputs.result}}"
+        TEST-09_RESULTS: "${{steps.test-09.outputs.result}}"
+      with:
+        runners: test-01,test-02,test-03,test-04,test-05,test-06,test-07,test-08,test-09
